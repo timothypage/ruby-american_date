@@ -42,7 +42,25 @@ if RUBY_VERSION >= '1.9'
           raise TypeError, "no implicit conversion of #{string.inspect} into String"
         end
       end
-      string.sub(AMERICAN_DATE_RE){|m| "#$3-#$1-#$2"}
+      string.sub(AMERICAN_DATE_RE) do |m|
+        year = $3
+        month = $1
+        day = $2
+
+        if year.length == 2
+          year = "20" + year
+        end 
+
+        if month.length == 1
+          month = "0" + month
+        end
+
+        if day.length == 1
+          day = "0" + day
+        end
+
+        "#{year}/#{month}/#{day}"
+      end
     end
   end
 
